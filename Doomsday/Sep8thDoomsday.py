@@ -50,12 +50,12 @@ def ask_question():
 
 # prompt the user with a date
 # get the response
-user_response = ask_question()
+# user_response = ask_question()
 
-if user_response['is_correct']:
-  print(f"Correct! It took you {user_response['time']} seconds")
-else:
-  print(f"Incorrect! You said {user_response['user_answer']} the correct answer was {user_response['correct_answer']}")
+# if user_response['is_correct']:
+#   print(f"Correct! It took you {user_response['time']} seconds")
+# else:
+#   print(f"Incorrect! You said {user_response['user_answer']} the correct answer was {user_response['correct_answer']}")
 
 
 
