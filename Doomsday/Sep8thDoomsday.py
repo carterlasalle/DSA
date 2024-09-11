@@ -22,7 +22,7 @@ def random_date():
   return cal.datetime.datetime(year,month,day)
 
   
-def ask_question():
+def ask_question_Random():
   test_date = random_date()
   print(f"What day of the week was {test_date.strftime('%m/%d/%Y')} ?")
 
@@ -48,6 +48,39 @@ def ask_question():
   
   return result
 
+def start_quiz():
+  quiz_results = []
+  for i in range(3):
+    quiz_results.append(ask_question_Random())
+  return quiz_results
+
+  
+quiz_results = start_quiz();
+
+total_correct = 0
+total_time = 0
+for date in quiz_results:
+    print(f"{date['date'].strftime('%m/%d/%Y')} - {'CORRECT' if date['is_correct'] else 'INCORRECT, Correct: ' + date['correct_answer'].upper() +  ', You Said: ' + date['user_answer'].upper()} - {date['time']:.3f} seconds")
+    if date['is_correct']:
+        total_correct += 1
+    total_time += date['time']
+
+total_questions = len(quiz_results)
+print("-----------------------------------")
+print(f"TOTAL: {(total_correct/total_questions) * 100:.2f}%, Average Time: {total_time/total_questions:.2f} avg. seconds")
+
+
+
+
+    #print(f"Total: {for da} ")
+  # print(date['date'].strftime('%m/%d/%Y'))
+  # print(date['is_correct'])
+  # if date['is_correct'] == False:
+  #   print("")
+
+
+
+
 # prompt the user with a date
 # get the response
 # user_response = ask_question()
@@ -64,22 +97,8 @@ def ask_question():
 
 
 
-
-demo = {'date': "6/12/2013", 
-        'is_correct': True, 
-        'time': 13, 
-        'correct_answer': "th", 
-        'user_answer': "th"}
-
-print(demo['time'])
-
-
-# for key, value in demo.items():
-#   print(f"{key}: {value}")
-
-# for key in demo.keys():
-#   print(f"{key} = {demo[key]}")
-
-# for value in demo.values():
-#   print(key)
+# total = 0
+# for result in quiz_results:
+#   total += result['time']
+#   print(f"Average time = {total/len(quiz_results)}")
 
