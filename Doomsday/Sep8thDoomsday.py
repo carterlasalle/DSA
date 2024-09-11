@@ -61,3 +61,25 @@ def ask_question():
 
 # check the response
 # report back to them the answer
+
+
+
+
+demo = {'date': "6/12/2013", 
+        'is_correct': True, 
+        'time': 13, 
+        'correct_answer': "th", 
+        'user_answer': "th"}
+
+print(demo['time'])
+
+
+# for key, value in demo.items():
+#   print(f"{key}: {value}")
+
+# for key in demo.keys():
+#   print(f"{key} = {demo[key]}")
+
+# for value in demo.values():
+#   print(key)
+
