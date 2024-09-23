@@ -50,7 +50,7 @@ def ask_question_Random():
 
 def start_quiz():
   quiz_results = []
-  for i in range(3):
+  for i in range(1):
     quiz_results.append(ask_question_Random())
   return quiz_results
 
