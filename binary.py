@@ -47,3 +47,17 @@ def binary_search(list, target):
   return None
 
 print(binary_search([1,2,3,4,5,6,7,8,9,10], 10))
+
+def binary_search_recursive(list, target, start=0, end=None):
+  if end is None:
+    end = len(list) - 1
+  if start > end:
+    return None
+  midpoint = (start + end) // 2
+  if list[midpoint] == target:
+    return midpoint
+  if target < list[midpoint]:
+    return binary_search_recursive(list, target, start, midpoint - 1)
+  return binary_search_recursive(list, target, midpoint + 1, end)
+
+print(binary_search_recursive([1,2,3,4,5,6,7,8,9,10], 10))
