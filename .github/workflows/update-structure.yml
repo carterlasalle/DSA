@@ -4,73 +4,55 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  update-structure:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: Generate folder structure
-      run: |
-        import os
-        import json
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Generate folder structure
+        run: |
+          import os
+          import json
 
-        def get_structure(path, is_root=False):
-            result = {}
-            for item in os.listdir(path):
-                if item.startswith('.') or item in ['structure.json', 'node_modules']:
-                    continue
-                full_path = os.path.join(path, item)
-                if os.path.isdir(full_path):
-                    result[item] = get_structure(full_path)
-                elif not is_root:
-                    result[item] = None
-            return result
+          def get_structure(path, is_root=False):
+              result = {}
+              for item in os.listdir(path):
+                  if item.startswith('.') or item in ['structure.json', 'node_modules']:
+                      continue
+                  full_path = os.path.join(path, item)
+                  if os.path.isdir(full_path):
+                      result[item] = get_structure(full_path)
+                  elif not is_root:
+                      result[item] = None
+              return result
 
-        structure = get_structure('.', is_root=True)
-        print("Generated structure:", json.dumps(structure, indent=2))
-        with open('structure.json', 'w') as f:
-            json.dump(structure, f, indent=2)
-      shell: python
-    - name: Commit changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add structure.json
-        git commit -m "Update folder structure" || echo "No changes to commit"
-        git push origin main
-    - name: Verify file existence and content
-      run: |
-        if [ -f "structure.json" ]; then
-          echo "structure.json exists"
-          cat structure.json
-        else
-          echo "structure.json does not exist"
-          exit 1
-        fi
+          structure = get_structure('.', is_root=True)
+          print("Generated structure:", json.dumps(structure, indent=2))
+          with open('structure.json', 'w') as f:
+              json.dump(structure, f, indent=2)
+        shell: python
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '.'
 
   deploy:
-    needs: update-structure
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Setup Pages
-      uses: actions/configure-pages@v3
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
-      with:
-        path: '.'
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v2
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
