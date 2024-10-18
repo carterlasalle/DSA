@@ -63,7 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
         'Cache-Control': 'no-cache'
       }
     })
-      .then(response => response.text())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('structure.json not found');
+        }
+        return response.text();
+      })
       .then(text => {
         console.log('Raw response:', text);
         return JSON.parse(text);
@@ -71,7 +76,10 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(structure => {
         renderFolderStructure(structure, folderStructureElement);
       })
-      .catch(error => console.error('Error fetching folder structure:', error));
+      .catch(error => {
+        console.error('Error fetching folder structure:', error);
+        folderStructureElement.textContent = 'Unable to load folder structure. Please try again later.';
+      });
   }
 
   fetchFolderStructure();
