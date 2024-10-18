@@ -26,8 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function createFileElement(name, path) {
     const fileElement = document.createElement('div');
     fileElement.classList.add('file');
-    fileElement.textContent = name;
-    fileElement.addEventListener('click', () => fetchFileContent(path));
+    const fileLink = document.createElement('a');
+    fileLink.textContent = name;
+    fileLink.href = `https://raw.githubusercontent.com/${window.GITHUB_USERNAME}/${window.REPO_NAME}/main/${path}`;
+    fileLink.target = '_blank';
+    fileLink.rel = 'noopener noreferrer';
+    fileElement.appendChild(fileLink);
     return fileElement;
   }
 
@@ -43,21 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderFolderStructure(content, folderElement.querySelector('.folder-contents'), newPath);
       }
     }
-  }
-
-  function fetchFileContent(path) {
-    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${path}`;
-    fetch(rawUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch file content: ${response.statusText}`);
-        }
-        return response.text();
-      })
-      .then(content => {
-        alert(content);
-      })
-      .catch(error => console.error('Error fetching file content:', error));
   }
 
   function fetchFolderStructure(retries = 3, delay = 1000) {
