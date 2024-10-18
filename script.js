@@ -57,12 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function fetchFolderStructure(retries = 3, delay = 1000) {
-    fetch('structure.json', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache'
-      }
-    })
+    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/structure.json`;
+    fetch(rawUrl)
       .then(response => {
         if (!response.ok) {
           throw new Error('structure.json not found');
