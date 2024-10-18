@@ -46,11 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function fetchFileContent(path) {
-    const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${path}`;
-    fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-        const content = atob(data.content);
+    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${path}`;
+    fetch(rawUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch file content: ${response.statusText}`);
+        }
+        return response.text();
+      })
+      .then(content => {
         alert(content);
       })
       .catch(error => console.error('Error fetching file content:', error));
