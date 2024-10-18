@@ -16,14 +16,13 @@ jobs:
         python-version: '3.x'
     - name: Generate folder structure
       run: |
-        python -c "
         import os
         import json
 
         def get_structure(path):
             result = {}
             for item in os.listdir(path):
-                if item.startswith('.'):
+                if item.startswith('.') or item == 'structure.json':
                     continue
                 full_path = os.path.join(path, item)
                 if os.path.isdir(full_path):
@@ -34,8 +33,8 @@ jobs:
 
         structure = get_structure('.')
         with open('structure.json', 'w') as f:
-            json.dump(structure, f)
-        "
+            json.dump(structure, f, indent=2)
+      shell: python
     - name: Commit changes
       run: |
         git config --local user.email "action@github.com"

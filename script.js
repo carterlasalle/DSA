@@ -57,12 +57,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function fetchFolderStructure() {
-    fetch('structure.json')
-      .then(response => response.json())
+    fetch('structure.json', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache'
+      }
+    })
+      .then(response => response.text())
+      .then(text => {
+        console.log('Raw response:', text);
+        return JSON.parse(text);
+      })
       .then(structure => {
         renderFolderStructure(structure, folderStructureElement);
       })
-      .catch(error => console.error('Error fetching folder structure: ', error));
+      .catch(error => console.error('Error fetching folder structure:', error));
   }
 
   fetchFolderStructure();
