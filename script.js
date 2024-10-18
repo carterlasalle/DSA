@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(error => console.error('Error fetching file content:', error));
   }
 
-  function fetchFolderStructure() {
+  function fetchFolderStructure(retries = 3, delay = 1000) {
     fetch('structure.json', {
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(error => {
         console.error('Error fetching folder structure:', error);
-        folderStructureElement.textContent = 'Unable to load folder structure. Please try again later.';
+        if (retries > 0) {
+          console.log(`Retrying in ${delay}ms... (${retries} retries left)`);
+          setTimeout(() => fetchFolderStructure(retries - 1, delay * 2), delay);
+        } else {
+          folderStructureElement.textContent = 'Unable to load folder structure. Please try again later.';
+        }
       });
   }
 
