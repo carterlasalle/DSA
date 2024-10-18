@@ -1,0 +1,45 @@
+name: Update Folder Structure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-structure:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Generate folder structure
+      run: |
+        python -c "
+        import os
+        import json
+
+        def get_structure(path):
+            result = {}
+            for item in os.listdir(path):
+                if item.startswith('.'):
+                    continue
+                full_path = os.path.join(path, item)
+                if os.path.isdir(full_path):
+                    result[item] = get_structure(full_path)
+                else:
+                    result[item] = None
+            return result
+
+        structure = get_structure('.')
+        with open('structure.json', 'w') as f:
+            json.dump(structure, f)
+        "
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add structure.json
+        git commit -m "Update folder structure" || echo "No changes to commit"
+        git push

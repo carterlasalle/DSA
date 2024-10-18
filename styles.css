@@ -44,3 +44,32 @@ footer {
   bottom: 0;
   width: 100%;
 }
+
+.folder {
+  margin-left: 20px;
+}
+
+.folder-name {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.folder-name::before {
+  content: '📁 ';
+}
+
+.folder-name.open::before {
+  content: '📂 ';
+}
+
+.file {
+  margin-left: 40px;
+}
+
+.file::before {
+  content: '📄 ';
+}
+
+.hidden {
+  display: none;
+}
