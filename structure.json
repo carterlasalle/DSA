@@ -1,1 +1,18 @@
-{}
+{
+  "styles.css": null,
+  "script.js": null,
+  "index.html": null,
+  "_config.yml": null,
+  "README.md": null,
+  "Other": {
+    "digitizer.py": null
+  },
+  "Doomsday": {
+    "Sep8thDoomsday.py": null
+  },
+  "Sorting": {
+    "bozosort.py": null,
+    "binary.py": null,
+    "Ternary.py": null
+  }
+}
