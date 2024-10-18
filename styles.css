@@ -1,15 +1,37 @@
+:root {
+  --background: #ffffff;
+  --foreground: #1f2937;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --accent: #f3f4f6;
+  --accent-foreground: #1f2937;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.6;
   margin: 0;
   padding: 0;
+  color: var(--foreground);
+  background-color: var(--background);
 }
 
 header {
-  background-color: #333;
-  color: #fff;
+  background-color: var(--accent);
+  color: var(--accent-foreground);
   text-align: center;
-  padding: 1rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 600;
 }
 
 nav ul {
@@ -28,6 +50,8 @@ nav ul li a {
 }
 
 main {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 2rem;
 }
 
@@ -36,38 +60,70 @@ section {
 }
 
 footer {
-  background-color: #333;
-  color: #fff;
+  background-color: var(--accent);
+  color: var(--accent-foreground);
   text-align: center;
   padding: 1rem;
   position: fixed;
   bottom: 0;
   width: 100%;
+  font-size: 0.875rem;
 }
 
 .folder {
-  margin-left: 20px;
+  margin-left: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .folder-name {
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+}
+
+.folder-name:hover {
+  background-color: var(--muted);
 }
 
 .folder-name::before {
-  content: '📁 ';
+  content: '📁';
+  margin-right: 0.5rem;
 }
 
 .folder-name.open::before {
-  content: '📂 ';
+  content: '📂';
+}
+
+.folder-contents {
+  margin-left: 1.5rem;
 }
 
 .file {
-  margin-left: 40px;
+  margin-left: 1.5rem;
+  margin-bottom: 0.25rem;
 }
 
-.file::before {
-  content: '📄 ';
+.file a {
+  display: flex;
+  align-items: center;
+  color: var(--foreground);
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+}
+
+.file a:hover {
+  background-color: var(--muted);
+}
+
+.file a::before {
+  content: '📄';
+  margin-right: 0.5rem;
 }
 
 .hidden {
