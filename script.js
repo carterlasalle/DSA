@@ -61,11 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function fetchFolderStructure(retries = 3, delay = 1000) {
-    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/structure.json`;
+    const rawUrl = `https://raw.githubusercontent.com/${window.GITHUB_USERNAME}/${window.REPO_NAME}/main/structure.json`;
+    console.log('Fetching structure.json from:', rawUrl);
+    
     fetch(rawUrl)
       .then(response => {
+        console.log('Response status:', response.status);
         if (!response.ok) {
-          throw new Error('structure.json not found');
+          throw new Error(`structure.json not found. Status: ${response.status}`);
         }
         return response.text();
       })
@@ -74,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return JSON.parse(text);
       })
       .then(structure => {
+        console.log('Parsed structure:', structure);
         renderFolderStructure(structure, folderStructureElement);
       })
       .catch(error => {
