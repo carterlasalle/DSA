@@ -14,6 +14,8 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
+    - name: Delete existing structure.json
+      run: rm -f structure.json
     - name: Generate folder structure
       run: |
         import os
@@ -26,14 +28,12 @@ jobs:
                     continue
                 full_path = os.path.join(path, item)
                 if os.path.isdir(full_path):
-                    result[item] = get_structure(full_path)
-                elif os.path.dirname(full_path) != '.':  # Only include files if they're not in the root directory
-                    result[item] = None
+                    sub_structure = get_structure(full_path)
+                    if sub_structure:  # Only include non-empty folders
+                        result[item] = sub_structure
             return result
 
         structure = get_structure('.')
-        # Only keep top-level folders
-        structure = {k: v for k, v in structure.items() if isinstance(v, dict)}
         with open('structure.json', 'w') as f:
             json.dump(structure, f, indent=2)
       shell: python
@@ -44,10 +44,11 @@ jobs:
         git add structure.json
         git commit -m "Update folder structure" || echo "No changes to commit"
         git push origin main
-    - name: Verify file existence
+    - name: Verify file existence and content
       run: |
         if [ -f "structure.json" ]; then
           echo "structure.json exists"
+          cat structure.json
         else
           echo "structure.json does not exist"
           exit 1
