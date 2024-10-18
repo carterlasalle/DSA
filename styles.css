@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --background: #ffffff;
+  --background: #f8fafc;
   --foreground: #020817;
   --card: #ffffff;
   --card-foreground: #020817;
@@ -26,17 +26,17 @@
 .dark {
   --background: #020817;
   --foreground: #f8fafc;
-  --card: #020817;
+  --card: #1e293b;
   --card-foreground: #f8fafc;
-  --popover: #020817;
+  --popover: #1e293b;
   --popover-foreground: #f8fafc;
   --primary: #f8fafc;
   --primary-foreground: #020817;
-  --secondary: #1e293b;
+  --secondary: #334155;
   --secondary-foreground: #f8fafc;
-  --muted: #1e293b;
+  --muted: #334155;
   --muted-foreground: #94a3b8;
-  --accent: #1e293b;
+  --accent: #334155;
   --accent-foreground: #f8fafc;
   --destructive: #7f1d1d;
   --destructive-foreground: #f8fafc;
@@ -47,6 +47,7 @@
 
 * {
   border-color: var(--border);
+  box-sizing: border-box;
 }
 
 body {
@@ -56,10 +57,18 @@ body {
   line-height: 1.5;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 800px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -70,25 +79,46 @@ header {
   padding: 1rem 0;
 }
 
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 header h1 {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
 }
 
+#theme-toggle {
+  background: none;
+  border: none;
+  color: var(--foreground);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  transition: background-color 0.2s ease;
+}
+
+#theme-toggle:hover {
+  background-color: var(--secondary);
+}
+
 main {
+  flex-grow: 1;
   padding: 2rem 0;
 }
 
 .folder-structure {
   background-color: var(--card);
   border-radius: var(--radius);
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   padding: 1.5rem;
 }
 
 .folder {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .folder-name {
@@ -118,7 +148,7 @@ main {
 }
 
 .file {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .file a {
