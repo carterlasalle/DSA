@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(structure => {
         renderFolderStructure(structure, folderStructureElement);
       })
-      .catch(error => console.error('Error fetching folder structure:', error));
+      .catch(error => console.error('Error fetching folder structure: ', error));
   }
 
   fetchFolderStructure();
