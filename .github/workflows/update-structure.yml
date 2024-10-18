@@ -1,4 +1,4 @@
-name: Update Folder Structure
+name: Update Folder Structure and Deploy
 
 on:
   push:
@@ -50,3 +50,15 @@ jobs:
           echo "structure.json does not exist"
           exit 1
         fi
+
+  deploy:
+    needs: update-structure
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .
