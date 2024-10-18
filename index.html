@@ -5,21 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DSA Portfolio</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
   <header>
-    <h1>DSA Portfolio</h1>
+    <div class="container">
+      <nav>
+        <h1>DSA Portfolio</h1>
+        <button id="theme-toggle" aria-label="Toggle dark mode">
+          <i data-feather="moon"></i>
+        </button>
+      </nav>
+    </div>
   </header>
   <main>
-    <div id="folder-structure"></div>
+    <div class="container">
+      <div class="folder-structure" id="folder-structure"></div>
+    </div>
   </main>
   <footer>
-    <p>&copy; 2023 DSA Portfolio</p>
+    <div class="container">
+      <p>&copy; 2023 DSA Portfolio</p>
+    </div>
   </footer>
   <script>
     window.GITHUB_USERNAME = 'carterlasalle';
     window.REPO_NAME = 'DSA';
   </script>
   <script src="script.js"></script>
+  <script>
+    feather.replace();
+    
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const icon = themeToggle.querySelector('i');
+      if (document.body.classList.contains('dark')) {
+        icon.setAttribute('data-feather', 'sun');
+      } else {
+        icon.setAttribute('data-feather', 'moon');
+      }
+      feather.replace();
+    });
+  </script>
 </body>
 </html>
