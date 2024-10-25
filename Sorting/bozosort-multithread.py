@@ -7,6 +7,7 @@ import threading
 import signal
 from collections import deque
 import datetime
+import multiprocessing
 
 class ProgressTracker:
     def __init__(self, total):
@@ -130,7 +131,8 @@ def parallel_tester(trials, a_size, lower_bound, upper_bound, max_iterations=100
         raise ValueError("Upper bound must be greater than lower bound")
 
     if max_workers is None:
-        max_workers = min(32, trials)
+        # Use number of CPU cores + 1 for optimal performance
+        max_workers = min(multiprocessing.cpu_count() + 1, trials)
 
     progress_tracker = ProgressTracker(trials)
     args_list = [(a_size, lower_bound, upper_bound, max_iterations, progress_tracker)] * trials
@@ -179,7 +181,7 @@ def parallel_tester(trials, a_size, lower_bound, upper_bound, max_iterations=100
         }
 
 if __name__ == "__main__":
-    size = 10
+    size = 5
     lower_bound = 0
     upper_bound = 100
     trial_counts = [10, 100, 1000, 10000, 100000]
