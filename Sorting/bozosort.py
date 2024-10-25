@@ -74,7 +74,7 @@ def tester(trials, a_size, lower_bound, upper_bound, max_iterations=100000):
     }
 
 if __name__ == "__main__":
-    size = 5
+    size = 10
     lower_bound = 0
     upper_bound = 100
     trial_counts = [10, 100, 1000, 10000, 100000]
