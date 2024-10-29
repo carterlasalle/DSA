@@ -1,5 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   const folderStructureElement = document.getElementById('folder-structure');
+  
+  const EXCLUDED_FILES = [
+    'README.md',
+    '_config.yml',
+    'index.html',
+    'script.js',
+    'styles.css',
+    'structure.json'
+  ];
 
   function createFolderElement(name, isRoot = false) {
     const folderElement = document.createElement('div');
@@ -39,7 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const root = {};
     
     items.forEach(item => {
-      if (item.path.startsWith('.') || item.path === 'structure.json') return;
+      // Skip hidden files, excluded files, and files in hidden directories
+      if (item.path.split('/').some(part => 
+          part.startsWith('.') || 
+          EXCLUDED_FILES.includes(part)
+      )) return;
       
       const parts = item.path.split('/');
       let current = root;
