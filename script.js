@@ -35,6 +35,31 @@ document.addEventListener('DOMContentLoaded', () => {
     return fileElement;
   }
 
+  function pathToStructure(items) {
+    const root = {};
+    
+    items.forEach(item => {
+      if (item.path.startsWith('.') || item.path === 'structure.json') return;
+      
+      const parts = item.path.split('/');
+      let current = root;
+      
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        if (i === parts.length - 1) {
+          if (item.type === 'blob') {
+            current[part] = null;
+          }
+        } else {
+          current[part] = current[part] ?? {};
+          current = current[part];
+        }
+      }
+    });
+    
+    return root;
+  }
+
   function renderFolderStructure(structure, parentElement, currentPath = '') {
     for (const [name, content] of Object.entries(structure)) {
       const newPath = currentPath ? `${currentPath}/${name}` : name;
@@ -50,23 +75,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function fetchFolderStructure(retries = 3, delay = 1000) {
-    const rawUrl = `https://raw.githubusercontent.com/${window.GITHUB_USERNAME}/${window.REPO_NAME}/main/structure.json`;
-    console.log('Fetching structure.json from:', rawUrl);
+    const apiUrl = `https://api.github.com/repos/${window.GITHUB_USERNAME}/${window.REPO_NAME}/git/trees/main?recursive=true`;
     
-    fetch(rawUrl)
+    fetch(apiUrl)
       .then(response => {
-        console.log('Response status:', response.status);
         if (!response.ok) {
-          throw new Error(`structure.json not found. Status: ${response.status}`);
+          throw new Error(`Failed to fetch repository structure. Status: ${response.status}`);
         }
-        return response.text();
+        return response.json();
       })
-      .then(text => {
-        console.log('Raw response:', text);
-        return JSON.parse(text);
-      })
-      .then(structure => {
-        console.log('Parsed structure:', structure);
+      .then(data => {
+        const structure = pathToStructure(data.tree);
         renderFolderStructure(structure, folderStructureElement);
       })
       .catch(error => {
