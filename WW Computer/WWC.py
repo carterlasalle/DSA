@@ -15,8 +15,7 @@ def find_noun_verb_combination(target_output):
             output = run_program(memory)
             if output == target_output:
                 return noun, verb
-    return None, None
-
+ 
 def get_value_at_position(memory, position):
     return memory[position]
 
